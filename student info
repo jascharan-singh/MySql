@@ -1,0 +1,96 @@
+CREATE DATABASE UniversityOne;
+USE UniversityOne;
+CREATE TABLE StudentDim
+(
+    UniversityID      int not null primary key,
+    FirstName         char(20),
+    MiddleName        char(20),
+    LastName          char(20),
+    DOB               date,
+    Gender            char(6),
+    SS                text(255),
+    Street            int,
+    Address           varchar(40),
+    Zipcode           int,
+    city              char(25),
+    state             char(2),
+    HomePhone         text(25),
+    CellPhone         text(25),
+    Email             varchar(25),
+    Ethnicity         varchar(25),
+    CountryOrigin     varchar(25),
+    PrimaryLanguage   varchar(25),
+    SecondaryLanguage varchar(25),
+    AdmissionStatus   varchar(10),
+    Housing           char(1),
+    EducationLevel    varchar(25),
+    Honors            char(1),
+    GradeStatus       char(1),
+    GradeDate         date
+);
+CREATE TABLE EnrollmentFact
+(
+    EnrollmentID             int primary key,
+    StudentDim_UniversityID  int,
+    EmployeeDim_UniversityID int,
+    CourseDim_CourseKeyID    int,
+    GradeDim_GradeID         int
+);
+CREATE TABLE EmployeeDim
+(
+    UniversityID   int not null primary key,
+    Department     varchar(60),
+    FirstName      char(20),
+    MiddleName     char(20),
+    LastName       char(20),
+    DOB            date,
+    Gender         char(6),
+    SS             text(255),
+    Street         int,
+    Address        varchar(40),
+    Zipcode        int,
+    city           char(25),
+    state          char(2),
+    HomePhone      char(10),
+    CellPhone      char(10),
+    Email          varchar(25),
+    DegreeObtained varchar(25),
+    JobTitle       varchar(25),
+    DateHired      date,
+    Role           varchar(255),
+    TenureStatus   char(1),
+    TenureTrack    char(1)
+);
+CREATE TABLE CourseDim
+(
+    CourseKeyID       int auto_increment primary key not null,
+    Campus            int,
+    CalandarID        int,
+    CourseID          char(4),
+    SectionID         char(4),
+    CourseDescription varchar(100),
+    Semester          varchar(10),
+    Room              varchar(5),
+    Prerequisites     varchar(25),
+    Units             int,
+    EquatedUnits      int,
+    ClassLimit        int
+);
+CREATE TABLE GradeDim
+(
+    GradeID      int primary key not null,
+    Grade        char(2),
+    Successful   char(1),
+    Unsuccessful char(1),
+    Neutral      char(1),
+    GPANumerical decimal(4, 4)
+);
+select EnrollmentFact.StudentDim_UniversityID,
+       EnrollmentFact.EmployeeDim_UniversityID,
+       EnrollmentFact.CourseDim_CourseKeyID,
+       EnrollmentFact.GradeDim_GradeID
+from EnrollmentFact
+         INNER Join StudentDim ON StudentDim.UniversityID = EnrollmentFact.StudentDim_UniversityID
+         INNER Join EmployeeDim ON EmployeeDim.UniversityID = EnrollmentFact.EmployeeDim_UniversityID
+         INNER JOIN CourseDim ON CourseDim.CourseKeyID = EnrollmentFact.CourseDim_CourseKeyID
+         INNER Join GradeDim ON GradeDim.GradeID = EnrollmentFact.GradeDim_GradeID;
