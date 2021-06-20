@@ -1,0 +1,42 @@
+use adventureworks;
+# Select product.productID,
+#        product.Name,
+#        product.color,
+#        productcosthistory.StartDate,
+#        productcosthistory.EndDate,
+#        productdescription.Description,
+#        productcosthistory.StandardCost,
+#        productdocument.DocumentID,
+#        productinventory.LocationID,
+#        productinventory.Shelf,
+#        productinventory.Bin,
+#        productinventory.Quantity,
+#        productproductphoto.ProductPhotoID,
+#        productvendor.vendorid,
+#        productvendor.averageleadtime,
+#        productvendor.standardprice,
+#        productvendor.lastreceiptcost,
+#        productvendor.lastreceiptdate,
+#        productvendor.minorderqty,
+#        productvendor.maxorderqty,
+#        productvendor.onorderqty,
+#        productvendor.unitmeasurecode
+#
+#
+#
+# from product
+#          left join productdescription ON product.ProductID = productdescription.ProductDescriptionID
+#          left join productcosthistory ON product.ProductID = productcosthistory.ProductID
+#          Left Join productdocument ON product.ProductID = productdocument.ProductID
+#          left join productinventory ON product.ProductID = productinventory.ProductID
+#          left join productproductphoto on product.ProductID = productproductphoto.ProductID
+#          left join productvendor ON product.ProductID = productvendor.ProductID
+# where product.Color = 'black';
+select product.productID,
+       productcategory.Name,
+       product.color
+from product
+         INNER JOIN productcategory ON productcategory.ProductCategoryID = Product.ProductID
+         INNER JOIN productsubcategory ON productsubcategory.ProductcategoryID = productcategory.ProductCategoryID
+
+where product.Color = 'black';
